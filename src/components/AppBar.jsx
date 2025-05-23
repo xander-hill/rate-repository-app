@@ -14,13 +14,14 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
     const tabs = [
-        { label: 'Repositories' },
+        { label: 'Repositories', link: "/" },
+        { label: 'Sign in', link: "/signin" },
     ];
 
     return (
         <View style={styles.container}>
             {tabs.map((tab, index) => (
-                <AppBarTab key={index} label={tab.label} />
+                <AppBarTab key={index} label={tab.label} link={tab.link}/>
             ))}
         </View>
     );
