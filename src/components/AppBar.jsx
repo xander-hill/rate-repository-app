@@ -2,6 +2,7 @@ import { View, StyleSheet, Pressable } from 'react-native';
 import AppBarTab from './AppBarTab';
 import theme from '../theme';
 import Constants from 'expo-constants';
+import { ScrollView } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -20,9 +21,11 @@ const AppBar = () => {
 
     return (
         <View style={styles.container}>
-            {tabs.map((tab, index) => (
+            <ScrollView horizontal>
+                {tabs.map((tab, index) => (
                 <AppBarTab key={index} label={tab.label} link={tab.link}/>
             ))}
+            </ScrollView>
         </View>
     );
 };
