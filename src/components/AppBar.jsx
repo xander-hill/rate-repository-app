@@ -1,33 +1,62 @@
-import { View, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable, Text, ScrollView } from 'react-native';
 import AppBarTab from './AppBarTab';
 import theme from '../theme';
 import Constants from 'expo-constants';
-import { ScrollView } from 'react-native';
+import { useState, useEffect } from 'react';
+import useAuthStorage from '../hooks/useAuthStorage';
+import { useApolloClient } from '@apollo/client';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        paddingTop: Constants.statusBarHeight,
-        backgroundColor: theme.colors.appBarBackground,
-        paddingBottom: 10,
-    },
+  container: {
+    flexDirection: 'row',
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: theme.colors.appBarBackground,
+    paddingBottom: 10,
+  },
+  signOutTab: {
+  },
+  signOutText: {
+    color: 'white',
+  },
 });
 
 const AppBar = () => {
-    const tabs = [
-        { label: 'Repositories', link: "/" },
-        { label: 'Sign in', link: "/signin" },
-    ];
+  const apolloClient = useApolloClient();
+  const authStorage = useAuthStorage();
+  const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useState(null);
 
-    return (
-        <View style={styles.container}>
-            <ScrollView horizontal>
-                {tabs.map((tab, index) => (
-                <AppBarTab key={index} label={tab.label} link={tab.link}/>
-            ))}
-            </ScrollView>
-        </View>
-    );
+  useEffect(() => {
+    const loadToken = async () => {
+      const token = await authStorage.getAccessToken();
+      setAccessToken(token);
+    };
+
+    loadToken();
+  }, [authStorage]);
+
+  const handleSignOut = async () => {
+    await authStorage.removeAccessToken();
+    await apolloClient.resetStore();
+    setAccessToken(null);
+    navigate('/');
+  };
+
+  return (
+    <View style={styles.container}>
+      <ScrollView horizontal>
+        <AppBarTab label="Repositories" link="/" />
+        {accessToken ? (
+          <Pressable style={styles.signOutTab} onPress={handleSignOut}>
+            <Text style={styles.signOutText}>Sign Out</Text>
+          </Pressable>
+        ) : (
+          <AppBarTab label="Sign In" link="/signin" />
+        )}
+      </ScrollView>
+    </View>
+  );
 };
 
 export default AppBar;
