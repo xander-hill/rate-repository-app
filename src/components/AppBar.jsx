@@ -47,6 +47,7 @@ const AppBar = () => {
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab label="Repositories" link="/" />
+        <AppBarTab label="Create Review" link="/createreview" />
         {accessToken ? (
           <Pressable style={styles.signOutTab} onPress={handleSignOut}>
             <Text style={styles.signOutText}>Sign Out</Text>
