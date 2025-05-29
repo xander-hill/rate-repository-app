@@ -1,5 +1,7 @@
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Pressable } from "react-native";
 import Text from "./Text";
+import Linking from 'expo-linking';
+
 
 const styles = StyleSheet.create({
     item: {
@@ -34,43 +36,53 @@ const styles = StyleSheet.create({
     },
     bottomTab: {
         flexDirection: 'column',
-    }
+    },
+    gitHubLink: {
+        backgroundColor: '#0366d6',
+        borderRadius: 10,
+        paddingVertical: 4,
+    },
 });
 
-const RepositoryItem = ({fullName, description, language, forksCount, stargazersCount, ratingAverage, reviewCount, ownerAvatarUrl}) => {
+const RepositoryItem = ({repository, single}) => {
     return (
         <View testID="repositoryItem" style={styles.item}>
             <View style={styles.top}>
                 <Image 
                     style={styles.tinyLogo}
-                    source={{uri: ownerAvatarUrl}}
+                    source={{uri: repository.ownerAvatarUrl}}
                 />
                 <View style={styles.headers}>
-                    <Text color='textPrimary' fontWeight='bold' fontSize='subheading' >{fullName} </Text>
-                    <Text>{description} </Text>
+                    <Text color='textPrimary' fontWeight='bold' fontSize='subheading' >{repository.fullName} </Text>
+                    <Text>{repository.description} </Text>
                     <View style={styles.language}>
-                        <Text color='appBar'>{language}</Text>
+                        <Text color='appBar'>{repository.language}</Text>
                     </View>
                 </View>
             </View>
             <View style={styles.bottom}>
                 <View style={styles.bottomTab}>
-                    <Text color='textPrimary' fontWeight='bold' fontSize='subheading' >{stargazersCount}</Text>
+                    <Text color='textPrimary' fontWeight='bold' fontSize='subheading' >{repository.stargazersCount}</Text>
                     <Text color='textSecondary'>Stars</Text>
                 </View>
                 <View style={styles.bottomTab}>
-                    <Text color='textPrimary' fontWeight='bold' fontSize='subheading' >{forksCount}</Text>
+                    <Text color='textPrimary' fontWeight='bold' fontSize='subheading' >{repository.forksCount}</Text>
                     <Text color='textSecondary'>Forks</Text>
                 </View>
                 <View style={styles.bottomTab}>
-                    <Text color='textPrimary' fontWeight='bold' fontSize='subheading' >{reviewCount}</Text>
+                    <Text color='textPrimary' fontWeight='bold' fontSize='subheading' >{repository.reviewCount}</Text>
                     <Text color='textSecondary'>Reviews</Text>
                 </View>
                 <View style={styles.bottomTab}>
-                    <Text color='textPrimary' fontWeight='bold' fontSize='subheading' >{ratingAverage}</Text>
+                    <Text color='textPrimary' fontWeight='bold' fontSize='subheading' >{repository.ratingAverage}</Text>
                     <Text color='textSecondary'>Rating</Text>
                 </View>
             </View>
+            {single && (
+                <Pressable style={styles.gitHubLink} onPress={() => Linking.openURL(repository.url)}>
+                    <Text color='appBar' fontWeight='bold' fontSize='subheading'>Open in GitHub</Text>
+                </Pressable>
+            )}
         </View>
     );
 };
