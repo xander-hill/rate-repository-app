@@ -1,17 +1,20 @@
 import RepositoryItem from "./RepositoryItem";
-import ReviewList from "./ReviewList";
 import Text from "./Text";
 import { View, Pressable, StyleSheet } from "react-native";
+import * as Linking from 'expo-linking';
 
 const styles = StyleSheet.create({
     gitHubLink: {
         backgroundColor: '#0366d6',
-        borderRadius: 20,
         paddingVertical: 10,
+        paddingHorizontal: 20,
         alignItems: 'center',
-        marginTop: 5
+        justifyContent: 'center',
+        marginTop: 5,
+        borderRadius: 20, 
     },
 });
+
 
 const RepositoryInfo = ({ repository }) => {
     return (
@@ -21,7 +24,6 @@ const RepositoryInfo = ({ repository }) => {
                 <Pressable style={styles.gitHubLink} onPress={() => Linking.openURL(repository.url)}>
                     <Text color='appBar' fontWeight='bold' fontSize='subheading'>Open in GitHub</Text>
                 </Pressable>
-                <ReviewList reviews={repository.reviews.edges.map(edge => edge.node)} />
             </View>
         </>   
     );
