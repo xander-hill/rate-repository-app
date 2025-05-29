@@ -39,8 +39,10 @@ const styles = StyleSheet.create({
     },
     gitHubLink: {
         backgroundColor: '#0366d6',
-        borderRadius: 10,
-        paddingVertical: 4,
+        borderRadius: 20,
+        paddingVertical: 10,
+        alignItems: 'center',
+        marginTop: 5
     },
 });
 
