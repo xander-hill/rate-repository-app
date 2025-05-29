@@ -39,6 +39,22 @@ const initialValues = {
     review: ''
 };
 
+const validationSchema = yup.object().shape({
+    username: yup
+        .string()
+        .required('Username is required'),
+    repoName: yup
+        .string()
+        .required('Repo name is required'),
+    rating: yup
+        .number()
+        .required('Rating is required')
+        .min(0, 'Rating must be at least 0')
+        .max(100, 'Rating must be at most 100'),
+    review: yup
+        .string()
+});
+
 export const ReviewForm = ({ onSubmit }) => {
     return (
         <View>
