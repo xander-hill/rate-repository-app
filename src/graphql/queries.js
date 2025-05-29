@@ -31,7 +31,8 @@ export const GET_REPOSITORY = gql`
       ownerAvatarUrl
       ratingAverage
       reviewCount
-      stargazersCount
+      stargazersCount,
+      url
     }
   }
 `;
