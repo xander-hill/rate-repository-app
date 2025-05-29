@@ -42,12 +42,13 @@ const initialValues = {
 const validationSchema = yup.object().shape({
     username: yup
         .string()
-        .required('Username is required'),
+        .required('Repo owner name is required'),
     repoName: yup
         .string()
         .required('Repo name is required'),
     rating: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .required('Rating is required')
         .min(0, 'Rating must be at least 0')
         .max(100, 'Rating must be at most 100'),
@@ -56,9 +57,65 @@ const validationSchema = yup.object().shape({
 });
 
 export const ReviewForm = ({ onSubmit }) => {
+    const formik = useFormik({
+        initialValues,
+        validationSchema,
+        onSubmit,
+    });
+
     return (
-        <View>
-            <Text>Review Form</Text>
+        <View style={styles.page}>
+            <TextInput
+                placeholder='Repository Owner Username'
+                value={formik.values.username}
+                onChangeText={formik.handleChange('username')}
+                style={[
+                    styles.textInput,
+                    formik.touched.username && formik.errors.username && styles.inputError,
+                ]}
+            />
+            {formik.touched.username && formik.errors.username && (
+                <Text style={{ color: 'red' }}>{formik.errors.username}</Text>
+            )}
+            <TextInput
+                placeholder='Repository Name'
+                value={formik.values.repoName}
+                onChangeText={formik.handleChange('repoName')}
+                style={[
+                    styles.textInput,
+                    formik.touched.repoName && formik.errors.repoName && styles.inputError,
+                ]}
+            />
+            {formik.touched.repoName && formik.errors.repoName && (
+                <Text style={{ color: 'red' }}>{formik.errors.repoName}</Text>
+            )}
+            <TextInput
+                placeholder='Rating between 0 and 100'
+                value={formik.values.rating}
+                onChangeText={formik.handleChange('rating')}
+                style={[
+                    styles.textInput,
+                    formik.touched.rating && formik.errors.rating && styles.inputError,
+                ]}
+            />
+            {formik.touched.rating && formik.errors.rating && (
+                <Text style={{ color: 'red' }}>{formik.errors.rating}</Text>
+            )}
+            <TextInput
+                placeholder='Review (optional)'
+                value={formik.values.review}
+                onChangeText={formik.handleChange('review')}
+                style={[
+                    styles.textInput,
+                    formik.touched.review && formik.errors.review && styles.inputError,
+                ]}
+            />
+            {formik.touched.review && formik.errors.review && (
+                <Text style={{ color: 'red' }}>{formik.errors.review}</Text>
+            )}
+            <Pressable onPress={formik.handleSubmit} style={styles.button}>
+                <Text style={styles.buttonText}>Create a review</Text>
+            </Pressable>
         </View>
     );
 };
