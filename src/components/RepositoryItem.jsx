@@ -1,7 +1,5 @@
-import { View, StyleSheet, Image, Pressable } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import Text from "./Text";
-import * as Linking from 'expo-linking';
-
 
 const styles = StyleSheet.create({
     item: {
@@ -37,16 +35,9 @@ const styles = StyleSheet.create({
     bottomTab: {
         flexDirection: 'column',
     },
-    gitHubLink: {
-        backgroundColor: '#0366d6',
-        borderRadius: 20,
-        paddingVertical: 10,
-        alignItems: 'center',
-        marginTop: 5
-    },
 });
 
-const RepositoryItem = ({repository, single}) => {
+const RepositoryItem = ({repository}) => {
     return (
         <View testID="repositoryItem" style={styles.item}>
             <View style={styles.top}>
@@ -56,7 +47,7 @@ const RepositoryItem = ({repository, single}) => {
                 />
                 <View style={styles.headers}>
                     <Text color='textPrimary' fontWeight='bold' fontSize='subheading' >{repository.fullName} </Text>
-                    <Text>{repository.description} </Text>
+                    <Text color='textSecondary'>{repository.description} </Text>
                     <View style={styles.language}>
                         <Text color='appBar'>{repository.language}</Text>
                     </View>
@@ -80,11 +71,6 @@ const RepositoryItem = ({repository, single}) => {
                     <Text color='textSecondary'>Rating</Text>
                 </View>
             </View>
-            {single && (
-                <Pressable style={styles.gitHubLink} onPress={() => Linking.openURL(repository.url)}>
-                    <Text color='appBar' fontWeight='bold' fontSize='subheading'>Open in GitHub</Text>
-                </Pressable>
-            )}
         </View>
     );
 };

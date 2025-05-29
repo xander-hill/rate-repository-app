@@ -31,8 +31,22 @@ export const GET_REPOSITORY = gql`
       ownerAvatarUrl
       ratingAverage
       reviewCount
-      stargazersCount,
+      stargazersCount
       url
+      reviews {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
     }
   }
 `;
