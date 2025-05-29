@@ -1,3 +1,6 @@
+import { RepositoryListContainer } from "../components/RepositoryList";
+import { render, toHaveTextContent, screen } from "@testing-library/react-native";
+
 describe('RepositoryList', () => {
   describe('RepositoryListContainer', () => {
     it('renders repository information correctly', () => {
@@ -43,8 +46,11 @@ describe('RepositoryList', () => {
           },
         ],
       };
-
-      
+      render(<RepositoryListContainer repositories={repositories} />);
+      const repositoryItems = screen.getAllByTestId('repositoryItem');
+      const [firstRepositoryItem, secondRepositoryItem] = repositoryItems;
+      expect(firstRepositoryItem).toHaveTextContent("jaredpalmer/formik Build forms in React, without the tears TypeScript21856Stars1619Forks3Reviews88Rating");
+      expect(secondRepositoryItem).toHaveTextContent("async-library/react-async Flexible promise-based React data loader JavaScript1760Stars69Forks3Reviews72Rating");
     });
   });
 });
