@@ -1,5 +1,4 @@
-import Text from './Text';
-import { TextInput, Pressable, View, StyleSheet } from 'react-native';
+import { TextInput, Pressable, View, StyleSheet, Text } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import useCreateReview from '../hooks/useCreateReview';
@@ -70,6 +69,10 @@ export const ReviewForm = ({ onSubmit }) => {
                 placeholder='Repository Owner Username'
                 value={formik.values.ownerName}
                 onChangeText={formik.handleChange('ownerName')}
+                onBlur={(e)=>{
+                    console.log('Blurred ownerName');
+                    formik.handleBlur('ownerName')(e);
+                }}
                 style={[
                     styles.textInput,
                     formik.touched.ownerName && formik.errors.ownerName && styles.inputError,
@@ -82,6 +85,10 @@ export const ReviewForm = ({ onSubmit }) => {
                 placeholder='Repository Name'
                 value={formik.values.repositoryName}
                 onChangeText={formik.handleChange('repositoryName')}
+                onBlur={(e)=>{
+                    console.log('Blurred repositoryName');
+                    formik.handleBlur('repositoryName')(e);
+                }}
                 style={[
                     styles.textInput,
                     formik.touched.repositoryName && formik.errors.repositoryName && styles.inputError,
