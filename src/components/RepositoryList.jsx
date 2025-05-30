@@ -4,6 +4,8 @@ import RepositoryItem from "./RepositoryItem";
 import useRepositories from "../hooks/useRepositories";
 import { useNavigate } from "react-router-native";
 import { Picker } from "@react-native-picker/picker";
+import { Searchbar } from "react-native-paper";
+import { useDebounce } from "use-debounce";
 
 const styles = StyleSheet.create({
     separator: {
@@ -16,22 +18,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const RepositorySorter = ({ selectedSort, setSelectedSort }) => {
-
-    return (
-        <Picker
-            selectedValue={selectedSort}
-            onValueChange={(itemValue, itemIndex) =>
-                setSelectedSort(itemValue)
-            }>
-            <Picker.Item label="Latest Repositories" value="default" />
-            <Picker.Item label="Highest rated repositories" value="high" />
-            <Picker.Item label="Lowest rated repositories" value="low" />
-        </Picker>
-    );
-}
-
-export const RepositoryListContainer = ({ repositories, selectedSort, setSelectedSort }) => {
+export const RepositoryListContainer = ({ repositories, selectedSort, setSelectedSort, searchQuery, setSearchQuery }) => {
   const navigate = useNavigate();
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
@@ -49,10 +36,22 @@ export const RepositoryListContainer = ({ repositories, selectedSort, setSelecte
                 </Pressable>
             )}
             ListHeaderComponent={() => (
-                <RepositorySorter
-                    selectedSort={selectedSort}
-                    setSelectedSort={setSelectedSort}
-                />
+                <>
+                    <Searchbar
+                        placeholder="Search"
+                        onChangeText={setSearchQuery}
+                        value={searchQuery}
+                    />
+                    <Picker
+                        selectedValue={selectedSort}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSelectedSort(itemValue)
+                        }>
+                        <Picker.Item label="Latest Repositories" value="default" />
+                        <Picker.Item label="Highest rated repositories" value="high" />
+                        <Picker.Item label="Lowest rated repositories" value="low" />
+                    </Picker>
+                </>
             )}
         />
     );
@@ -60,6 +59,8 @@ export const RepositoryListContainer = ({ repositories, selectedSort, setSelecte
 
 const RepositoryList = () => {
   const [selectedSort, setSelectedSort] = useState("default");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearch] = useDebounce(searchQuery, 500);
 
   const getSortParams = () => {
     switch (selectedSort) {
@@ -73,9 +74,9 @@ const RepositoryList = () => {
   };
 
   const { orderBy, orderDirection } = getSortParams();
-  const { repositories } = useRepositories(orderBy, orderDirection);
+  const { repositories } = useRepositories(orderBy, orderDirection, debouncedSearch);
 
-  return <RepositoryListContainer repositories={repositories} selectedSort={selectedSort} setSelectedSort={setSelectedSort} />;
+  return <RepositoryListContainer repositories={repositories} selectedSort={selectedSort} setSelectedSort={setSelectedSort} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />;
 };
 
 export default RepositoryList;
