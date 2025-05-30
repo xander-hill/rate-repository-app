@@ -18,10 +18,11 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const SingleRepo = () => {
     const { repositoryId } = useParams();
-    const { repository, loading, error } = useRepository({ repositoryId });
+    const { repository, loading, error, fetchMore } = useRepository(repositoryId, 3);
 
     const onEndReach = () => {
       console.log("You have reached the last review");
+      fetchMore();
     }
 
     if (loading) {
