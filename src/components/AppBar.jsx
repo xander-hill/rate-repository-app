@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   signOutTab: {
+    marginRight: 20
   },
   signOutText: {
     color: 'white',
@@ -49,9 +50,12 @@ const AppBar = () => {
         <AppBarTab label="Repositories" link="/" />
         <AppBarTab label="Create Review" link="/createreview" />
         {accessToken ? (
-          <Pressable style={styles.signOutTab} onPress={handleSignOut}>
-            <Text style={styles.signOutText}>Sign Out</Text>
-          </Pressable>
+          <>
+            <Pressable style={styles.signOutTab} onPress={handleSignOut}>
+              <Text style={styles.signOutText}>Sign Out</Text>
+            </Pressable>
+            <AppBarTab label="My reviews" link="/myreviews" />
+          </>
         ) : (
           <>
             <AppBarTab label="Sign In" link="/signin" />
