@@ -2,7 +2,8 @@ import Text from './Text';
 import { TextInput, Pressable, View, StyleSheet } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import useSignUp from '../hooks/useSignIn';
+import useCreateUser from '../hooks/useCreateUser';
+import useSignIn from '../hooks/useSignIn';
 import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
@@ -113,6 +114,7 @@ export const SignUpForm = ({ onSubmit }) => {
 };
 
 const SignUp = () => {
+  const [signUp] = useCreateUser();
   const [signIn] = useSignIn();
   const navigate = useNavigate();
 
@@ -120,8 +122,9 @@ const SignUp = () => {
     const { username, password } = values;
 
     try {
+      const createdUser = await signUp({ username, password });
+      console.log("CreatedUser: ", createdUser);
       const auth = await signIn({ username, password });
-      console.log(auth);
       console.log(auth.accessToken);
       navigate("/");
     } catch (e) {

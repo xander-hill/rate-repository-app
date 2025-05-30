@@ -53,7 +53,10 @@ const AppBar = () => {
             <Text style={styles.signOutText}>Sign Out</Text>
           </Pressable>
         ) : (
-          <AppBarTab label="Sign In" link="/signin" />
+          <>
+            <AppBarTab label="Sign In" link="/signin" />
+            <AppBarTab label="Sign Up" link="/signup" />
+          </>
         )}
       </ScrollView>
     </View>
