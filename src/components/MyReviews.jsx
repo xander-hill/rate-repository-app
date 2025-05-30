@@ -2,6 +2,7 @@ import { StyleSheet, View, FlatList } from "react-native";
 import Text from "./Text";
 import useCurrentUser from "../hooks/useCurrentUser";
 import MyReviewItem from "./MyReviewItem";
+import { useNavigate } from "react-router-native";
 
 const styles = StyleSheet.create({
     separator: {
