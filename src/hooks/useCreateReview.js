@@ -16,7 +16,8 @@ const useCreateReview = () => {
           },
         },
       });
-
+    
+      console.log(data);
       return data.createReview;
     } catch (error) {
       console.error('Create Review error:', error);

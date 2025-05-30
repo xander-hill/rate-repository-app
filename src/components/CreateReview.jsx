@@ -130,9 +130,12 @@ const CreateReview = () => {
 
         try {
             const review = await createReview({ ownerName, repositoryName, rating, text });
-            console.log(review);
-            console.log(review.repositoryId);
-            navigate(`${review.repositoryId}`);
+            console.log('Created review:', review);
+
+            const repoId = review?.repository?.id;
+
+            console.log(repoId);
+            navigate(`/${repoId}`);
         } catch (e) {
             console.log(e);
         }
