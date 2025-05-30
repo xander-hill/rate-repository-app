@@ -50,3 +50,27 @@ export const GET_REPOSITORY = gql`
     }
   }
 `;
+
+export const GET_CURRENT_USER = gql`
+  query getCurrentUser {
+    me {
+      username
+      id
+      reviewCount
+      reviews {
+        edges {
+          node {
+            createdAt
+            id
+            rating
+            repository {
+              name
+              ownerName
+            }
+            text
+          }
+        }
+      }
+    }
+  }
+`
