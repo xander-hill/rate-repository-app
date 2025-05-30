@@ -1,6 +1,7 @@
 import { View, StyleSheet, Pressable, Alert } from "react-native";
 import Text from "./Text";
 import { useNavigate } from "react-router-native";
+import useDeleteReview from "../hooks/useDeleteReview";
 
 const styles = StyleSheet.create({
     review: {
@@ -68,8 +69,9 @@ const styles = StyleSheet.create({
     }
 });
 
-const MyReviewItem = ({ review }) => {
+const MyReviewItem = ({ review, refetch }) => {
     const navigate = useNavigate();
+    const [deleteReview] = useDeleteReview();
 
     const confirmDelete = () => {
         Alert.alert('Delete review', 'Are you sure you want to delete this review?', [
@@ -80,7 +82,18 @@ const MyReviewItem = ({ review }) => {
             },
             {
                 text: 'Delete',
-                onPress: () => console.log('Delete Pressed')
+                onPress: async () => {
+                    try {
+                        const success = await deleteReview({ id: review.id });
+                        if (success) {
+                            refetch();
+                        } else {
+                            console.warn('Delete failed');
+                        }
+                    } catch (e) {
+                        console.error('Error deleting review:', e);
+                    }
+                }
             }
         ]);
     }

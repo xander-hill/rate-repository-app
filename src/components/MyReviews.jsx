@@ -15,13 +15,13 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const MyReviewsContainer = ({ reviews }) => {
+const MyReviewsContainer = ({ reviews, refetch }) => {
 
     return (
         <FlatList
             style={styles.list}
             data={reviews.edges.map(edge => edge.node)}
-            renderItem={({ item }) => <MyReviewItem review={item} />}
+            renderItem={({ item }) => <MyReviewItem review={item} refetch={refetch}/>}
             ItemSeparatorComponent={ItemSeparator}
             keyExtractor={({ id }) => id}
         />
@@ -29,7 +29,7 @@ const MyReviewsContainer = ({ reviews }) => {
 };
 
 const MyReviews = () => {
-    const { user, loading, error } = useCurrentUser();
+    const { user, loading, error, refetch } = useCurrentUser();
 
     if (loading) {
         return <Text>Loading...</Text>;
@@ -42,7 +42,7 @@ const MyReviews = () => {
 
 
     return (
-        <MyReviewsContainer reviews={user.reviews} />
+        <MyReviewsContainer reviews={user.reviews} refetch={refetch}/>
     );
 };
 
