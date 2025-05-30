@@ -20,6 +20,10 @@ const SingleRepo = () => {
     const { repositoryId } = useParams();
     const { repository, loading, error } = useRepository({ repositoryId });
 
+    const onEndReach = () => {
+      console.log("You have reached the last review");
+    }
+
     if (loading) {
       return <Text>Loading...</Text>;
     }
@@ -40,6 +44,8 @@ const SingleRepo = () => {
             ItemSeparatorComponent={ItemSeparator}
             keyExtractor={({ id }) => id}
             ListHeaderComponent={<RepositoryInfo repository={repository} />}
+            onEndReached={onEndReach}
+            onEndReachedThreshold={0.5}
         />
     );
 };

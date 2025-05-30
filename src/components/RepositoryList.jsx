@@ -76,9 +76,10 @@ const RepositoryList = () => {
   };
 
   const { orderBy, orderDirection } = getSortParams();
-  const { repositories, fetchMore } = useRepositories(orderBy, orderDirection, debouncedSearch, {first: 3});
+  const { repositories, fetchMore } = useRepositories(orderBy, orderDirection, debouncedSearch, 3);
 
   const onEndReach = () => {
+    console.log("onEndReach triggered");
     fetchMore();
   }
 
