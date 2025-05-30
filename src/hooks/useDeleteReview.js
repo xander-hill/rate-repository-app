@@ -8,7 +8,7 @@ const useDeleteReview = () => {
     try {
       const { data } = await mutate({
         variables: {
-          id: id, // or just: id
+          id: id,
         },
       });
 
